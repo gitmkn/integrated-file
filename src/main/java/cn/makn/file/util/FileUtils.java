@@ -10,6 +10,13 @@ import java.io.*;
  */
 public class FileUtils {
 
+    /**
+     * @Description: 获取文件总行数
+     * @author makn
+     * @date 2020/12/7 19:52
+     * @param filePath 文件路径 +文件名称
+     * @return
+     */
     public static int getRowCount(String filePath) {
         int count = 0;
         InputStream inputStream = null;
