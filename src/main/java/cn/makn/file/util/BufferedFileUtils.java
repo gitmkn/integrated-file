@@ -2,6 +2,7 @@ package cn.makn.file.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
@@ -10,7 +11,7 @@ import java.io.RandomAccessFile;
  * @version: V1.0
  * @date: 2020/12/7 21:13
  */
-public class BufferedFileUtils extends RandomAccessFile {
+public class BufferedFileUtils extends BufferedRandomAccessFile {
     private static final String [] model = {"r","rw","rws","rwd"};
 
     /**
@@ -24,12 +25,20 @@ public class BufferedFileUtils extends RandomAccessFile {
      * @author makn
      * @date 2020/12/7 15:20
      */
-    public BufferedFileUtils(String name, String mode) throws FileNotFoundException {
+    protected BufferedFileUtils(String name, String mode) throws IOException {
         super(name, mode);
     }
 
-    public BufferedFileUtils(File file, String mode) throws FileNotFoundException {
+    protected BufferedFileUtils(File file, String mode) throws IOException {
         super(file, mode);
+    }
+
+    protected BufferedFileUtils(String name, String mode, int size) throws IOException {
+        super(name, mode, size);
+    }
+
+    protected BufferedFileUtils(File file, String mode, int size) throws IOException {
+        super(file, mode, size);
     }
 
     public static RandomAccessFile getRAFWithModelR(String filePath) throws FileNotFoundException {

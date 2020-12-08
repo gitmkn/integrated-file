@@ -1,10 +1,14 @@
 package cn.makn.file.util;
 
-import cn.makn.file.model.FileDate;
+import cn.makn.file.model.FileParagraph;
+import cn.makn.file.model.FileRow;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description:
@@ -57,6 +61,54 @@ public class FileUtils {
     }
 
     /**
+     * @Description: 获取文件从条数，及段落偏移量
+     * @author makn
+     * @date 2020/12/8 15:39
+     * @param filePath 文件路径 + 文件名称
+     * @param num 段行数
+     * @param size 缓冲
+     * @return
+     */
+    public static Map<String, Object> getRowCount(String filePath, int num, int size) throws IOException {
+        // 单行偏移量
+        long pos = 0L;
+        // 总体偏移量
+        long count = 0L;
+        // 文件
+        File file = new File(filePath);
+        // 读取返回
+        List<FileParagraph> fileParagraphs = new LinkedList<FileParagraph>();
+        while (true) {
+            // 读取偏移量后的行数
+            if(size < 0){
+                size = -1;
+            }
+            FileParagraph fileParagraph = getRowCountAndPos(file, num, pos, size);
+
+            // 当前段落条数
+            int total = fileParagraph.getNum();
+            // 行数
+            count += total;
+
+            // 段落信息
+            fileParagraphs.add(new FileParagraph(total, pos));
+
+            // 读取无结果或不满足段数（最后一段），退出读取
+            if(total == 0 || total < num){
+                break;
+            }
+            // 偏移量
+            pos = fileParagraph.getPos();
+        }
+
+        // 返回总行数和段落
+        Map<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("count", count);
+        map1.put("fileParagraphs", fileParagraphs);
+        return map1;
+    }
+
+    /**
      * @Description: 获取文件数据
      * @author makn
      * @date 2020/12/7 21:21
@@ -91,5 +143,31 @@ public class FileUtils {
         raf.close();
 
         return date;
+    }
+
+    /**
+     * @Description: 根据偏移量读取下一段落（外部不可用）
+     * @author makn
+     * @date 2020/12/8 15:41
+     * @param file 文件
+     * @param num 段行数
+     * @param pos 偏移量
+     * @param size 缓冲
+     * @return FileParagraph 当前段落行数及偏移量
+     */
+    private static FileParagraph getRowCountAndPos(File file, int num, long pos, int size) throws IOException {
+        BufferedFileUtils raf = new BufferedFileUtils(file, "r", size);
+        raf.seek(pos);
+        int count = 0;
+        while (raf.readLine() != null && (count < num || num == -1)) {
+            count++;
+        }
+        // 偏移量
+        long countPos = raf.getFilePointer();
+        // 关闭流
+        raf.close();
+
+        // 返回总行数和偏移量
+        return new FileParagraph(count, countPos);
     }
 }
