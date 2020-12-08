@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileUtils {
 
     /**
-     * @Description: 获取文件总行数
+     * @Description: 获取文件总行数（只获取文件行数）
      * @author makn
      * @date 2020/12/7 19:52
      * @param filePath 文件路径 +文件名称
@@ -80,9 +80,6 @@ public class FileUtils {
         List<FileParagraph> fileParagraphs = new LinkedList<FileParagraph>();
         while (true) {
             // 读取偏移量后的行数
-            if(size < 0){
-                size = -1;
-            }
             FileParagraph fileParagraph = getRowCountAndPos(file, num, pos, size);
 
             // 当前段落条数
@@ -120,7 +117,7 @@ public class FileUtils {
     public static List<String> getFileDate(String filePath, long pos, int num) throws IOException {
         List<String> date = new LinkedList<String>();
         // 以只读的方式打开文本
-        RandomAccessFile raf = BufferedFileUtils.getRAFWithModelR(filePath);
+        RandomAccessFile raf = BufferedFileUtils.getRAFWithModelR(new File(filePath), -1);
         // 偏移行
         raf.seek(pos);
         // 每行数据
@@ -156,7 +153,12 @@ public class FileUtils {
      * @return FileParagraph 当前段落行数及偏移量
      */
     private static FileParagraph getRowCountAndPos(File file, int num, long pos, int size) throws IOException {
-        BufferedFileUtils raf = new BufferedFileUtils(file, "r", size);
+        if(size < 0){
+            size = -1;
+        }
+        // 读取R
+        BufferedFileUtils raf = BufferedFileUtils.getRAFWithModelR(file, size);
+        // 偏移段落
         raf.seek(pos);
         int count = 0;
         while (raf.readLine() != null && (count < num || num == -1)) {
