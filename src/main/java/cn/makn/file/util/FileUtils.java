@@ -61,32 +61,35 @@ public class FileUtils {
      * @author makn
      * @date 2020/12/7 21:21
      * @param filePath 文件路径 + 文件名称
-     * @param num 读取条数
+     * @param pos 偏移量
+     * @param num 读取条数 -1:读取所有
      * @return
      */
-    public static FileDate getFileDate(String filePath, int num) throws IOException {
-        FileDate fileDate = new FileDate();
-        List<String> bodyDate = new LinkedList<String>();
+    public static List<String> getFileDate(String filePath, long pos, int num) throws IOException {
+        List<String> date = new LinkedList<String>();
         // 以只读的方式打开文本
         RandomAccessFile raf = BufferedFileUtils.getRAFWithModelR(filePath);
+        // 偏移行
+        raf.seek(pos);
         // 每行数据
         String tempString = null;
         // 行数标
         int line = 0;
         // 小于行数时读取数据
-        while (line < num) {
+        while (line < num || num == -1) {
             // 读取下一行数据
             tempString = raf.readLine();
             // 不为空加入body中
-            if(tempString != null){
-                bodyDate.add(tempString);
+            if (tempString != null) {
+                date.add(tempString);
                 line++;
+            } else {
+                break;
             }
         }
         // 关闭流
         raf.close();
-        fileDate.setBodyDate(bodyDate);
 
-        return fileDate;
+        return date;
     }
 }
