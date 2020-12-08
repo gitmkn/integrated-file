@@ -1,5 +1,7 @@
 package cn.makn.file.model;
 
+import java.util.List;
+
 /**
  * @Description:
  * @author: makn
@@ -24,7 +26,7 @@ public class FileDate<H, B, T> {
      * @param null
      * @return
      */
-    private B bodyDate;
+    private List<B> bodyDate;
 
     /**
      * @Description: 文件尾部
@@ -43,11 +45,11 @@ public class FileDate<H, B, T> {
         this.headDate = headDate;
     }
 
-    public B getBodyDate() {
+    public List<B> getBodyDate() {
         return bodyDate;
     }
 
-    public void setBodyDate(B bodyDate) {
+    public void setBodyDate(List<B> bodyDate) {
         this.bodyDate = bodyDate;
     }
 
