@@ -1,14 +1,12 @@
 package cn.makn.file.util;
 
 import cn.makn.file.model.FileParagraph;
-import cn.makn.file.model.FileRow;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description:
