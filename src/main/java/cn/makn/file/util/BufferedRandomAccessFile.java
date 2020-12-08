@@ -38,6 +38,7 @@ import java.util.Arrays;
 
 /**
  * @Description: 文件读取缓冲区，来自 https://www.cnblogs.com/622698abc/archive/2013/08/18/3265584.html
+ * @Description: 学习参考 https://developer.ibm.com/zh/articles/l-javaio/
  * @author: makn
  * @version: V1.0
  * @date: 2020/12/8 11:41
