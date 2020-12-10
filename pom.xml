@@ -7,6 +7,18 @@
     <groupId>cn.makn</groupId>
     <artifactId>integrated-file</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!-- junit测试工具包 -->
@@ -16,6 +28,12 @@
             <version>4.12</version>
             <!-- 不设置scope就是全局 -->
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>
