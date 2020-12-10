@@ -5,11 +5,6 @@ import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.xml.XmlConvertUtils;
 import jdk.nashorn.internal.ir.annotations.Reference;
 import org.junit.Test;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -21,7 +16,6 @@ import java.util.Properties;
  * @date: 2020/12/7 15:33
  */
 public class readTest {
-    private static ResourceBundleMessageSource resourceBundle = new ResourceBundleMessageSource();
     @Reference
     IFileParse iFileParse;
 
@@ -109,13 +103,18 @@ public class readTest {
 
     @Test
     public void readTest8() throws Exception {
-//        long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         FileConvert fileConvert = XmlConvertUtils.getFileConvert("txtUser");
         System.out.println(fileConvert.toString());
-//        FileConvert fileConvert1 = XmlConvertUtils.getFileConvert("txtUser");
-//        System.out.println(fileConvert1.toString());
-//        long end = System.currentTimeMillis();
-//        System.out.println((end - start)  + "ms");
+
+        long end = System.currentTimeMillis();
+        System.out.println((end - start)  + "ms");
+
+        long start2 = System.currentTimeMillis();
+        FileConvert fileConvert1 = XmlConvertUtils.getFileConvert("txtUser");
+        System.out.println(fileConvert1.toString());
+        long end2 = System.currentTimeMillis();
+        System.out.println((end2 - start2)  + "ms");
     }
 
     @Test
@@ -133,8 +132,8 @@ public class readTest {
     @Test
     public void readTest10() throws Exception {
         long start = System.currentTimeMillis();
-        Properties properties = PropertiesLoaderUtils.loadProperties(new ClassPathResource("/*.properties"));
-        System.out.printf("参数：" + properties.getProperty("XML_NAME"));
+
+
         long end = System.currentTimeMillis();
         System.out.println((end - start) / 1000 + "s");
     }
@@ -142,11 +141,8 @@ public class readTest {
     @Test
     public void readTest11() throws Exception {
         long start = System.currentTimeMillis();
-        PathMatchingResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = patternResolver.getResources("classpath*:/**/*conf*.properties");
-        for (Resource resource : resources) {
-            System.out.println(resource.getFilename());
-        }
+
+
         long end = System.currentTimeMillis();
         System.out.println((end - start) / 1000 + "s");
     }
