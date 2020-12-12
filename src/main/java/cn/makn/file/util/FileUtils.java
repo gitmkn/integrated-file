@@ -3,10 +3,7 @@ package cn.makn.file.util;
 import cn.makn.file.model.FileParagraph;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -104,37 +101,50 @@ public class FileUtils {
     }
 
     /**
-     * @param filePath 文件路径 + 文件名称
+     * @Description: 获取文件数据
+     * @param file 文件路径 + 文件名称
      * @param pos      偏移量
      * @param num      读取条数 -1:读取所有(慎用，要防止内存溢出)
      * @param size     缓冲 -1默认缓冲
      * @return List<String>
-     * @Description: 获取文件数据
      * @author makn
      * @date 2020/12/7 21:21
      */
-    public static List<String> getFileDate(String filePath, String encoding, long pos, int num, int size) throws IOException {
-        List<String> date = new LinkedList<String>();
+    public static List<String> getFileDate(File file, String encoding, long pos, int num, int size) {
+        List<String> date = new ArrayList<>();
         if (size < 0) {
             size = -1;
         }
-        // 读取R
-        BufferedFileUtils raf = BufferedFileUtils.getRAFWithModelR(new File(filePath), size);
-        // 偏移段落
-        raf.seek(pos);
-        int count = 0;
-        String strLine;
-        while (count < num || num == -1) {
-            strLine = raf.readLine();
-            if (strLine != null) {
-                date.add(new String(strLine.getBytes("8859_1"), encoding));
-                count++;
-            } else {
-                break;
+        BufferedFileUtils raf = null;
+        try {
+            // 读取R
+            raf = BufferedFileUtils.getRAFWithModelR(file, size);
+            // 偏移段落
+            raf.seek(pos);
+            int count = 0;
+            String strLine;
+            while (count < num || num == -1) {
+                strLine = raf.readLine();
+                if (strLine != null) {
+                    date.add(new String(strLine.getBytes("8859_1"), encoding));
+                    count++;
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(raf != null){
+                    // 关闭流
+                    raf.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        // 关闭流
-        raf.close();
+
 
         // 返回总行数和偏移量
         return date;
