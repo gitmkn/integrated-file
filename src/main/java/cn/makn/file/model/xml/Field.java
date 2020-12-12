@@ -69,8 +69,8 @@ public class Field {
         this.desc = desc;
     }
 
-    public String getLength() {
-        return length;
+    public int getLength() {
+        return Integer.parseInt(length);
     }
 
     public void setLength(String length) {

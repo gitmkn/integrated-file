@@ -41,7 +41,7 @@ public class FileRow {
      * @Description: 对应模块java类
      * @author makn
      * @date 2020/12/9 16:37
-     * @param null
+     * @param object、map
      * @return
      */
     private String clazz;
