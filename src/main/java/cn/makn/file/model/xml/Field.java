@@ -51,7 +51,7 @@ public class Field {
      * @param null
      * @return
      */
-    private String type = "String";
+    private String type;
 
     public String getName() {
         return name;
@@ -86,7 +86,7 @@ public class Field {
     }
 
     public String getType() {
-        return type;
+        return type == null ? "String" : type;
     }
 
     public void setType(String type) {
