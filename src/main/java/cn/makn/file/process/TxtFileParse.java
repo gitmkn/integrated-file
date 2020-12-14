@@ -10,14 +10,9 @@ import cn.makn.file.util.FileUtils;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TxtFileParse implements IFileParse {
-    // xml中类
-    private static final Map<String, Object> mapObject = new ConcurrentHashMap<>();
 
     /**
      * @param filePath
@@ -82,7 +77,7 @@ public class TxtFileParse implements IFileParse {
      */
     public static Object getRowDate(String row, FileRow fileRow) {
         // 返回类H-文件头 B-文件体 T-文件尾部
-        Object obj = newFileObject(fileRow.getClazz());
+        Object obj = FileParse.newFileObject(fileRow.getClazz());
 
         // F-定长；S-分割符分割
         if ("F".equals(fileRow.getSepType())) {
@@ -121,34 +116,6 @@ public class TxtFileParse implements IFileParse {
             }
         } else {
             throw new FileParseExcept("文件解析数据处理时出现异常：[文件模板中字段分隔类型不正确]");
-        }
-        return obj;
-    }
-
-    /**
-     * @param className 包路径 + 类名
-     * @return
-     * @Description: 初始化文件模板中class类
-     * @author makn
-     * @date 2020/12/12 18:08
-     */
-    private static Object newFileObject(String className) {
-        // 如果是Map直接返回
-        if (className.contains("Map")) {
-            return new HashMap<>();
-        }
-        // 返回类H-文件头 B-文件体 T-文件尾部
-        if (mapObject.get(className) != null) {
-            return mapObject.get(className);
-        }
-
-        Object obj;
-        try {
-            obj = Class.forName(className).newInstance();
-            mapObject.put("className", obj);
-        } catch (Exception | NoClassDefFoundError e) {
-            e.printStackTrace();
-            throw new FileParseExcept("文件解析时出现异常：[文件模板中的对应类<" + className + ">未找到]");
         }
         return obj;
     }

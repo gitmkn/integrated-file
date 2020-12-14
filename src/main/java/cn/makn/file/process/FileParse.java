@@ -9,7 +9,9 @@ import cn.makn.file.xml.XmlConvertUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description:
@@ -18,6 +20,9 @@ import java.util.Map;
  * @date: 2020/12/12 10:33
  */
 public class FileParse {
+
+    // xml中类
+    private static final Map<String, Object> mapObject = new ConcurrentHashMap<>();
 
     /**
      * @param path        文件路径
@@ -62,6 +67,34 @@ public class FileParse {
                 throw new FileParseExcept("文件解析时出现异常：[文件类型转换时，文件类型<" + type + ">未找到]");
             }
         }
+    }
+
+    /**
+     * @param className 包路径 + 类名
+     * @return
+     * @Description: 初始化文件模板中class类
+     * @author makn
+     * @date 2020/12/12 18:08
+     */
+    protected static Object newFileObject(String className) {
+        // 如果是Map直接返回
+        if (className.contains("Map")) {
+            return new HashMap<>();
+        }
+        // 返回类H-文件头 B-文件体 T-文件尾部
+        if (mapObject.get(className) != null) {
+            return mapObject.get(className);
+        }
+
+        Object obj;
+        try {
+            obj = Class.forName(className).newInstance();
+            mapObject.put("className", obj);
+        } catch (Exception | NoClassDefFoundError e) {
+            e.printStackTrace();
+            throw new FileParseExcept("文件解析时出现异常：[文件模板中的对应类<" + className + ">未找到]");
+        }
+        return obj;
     }
 
     /**
