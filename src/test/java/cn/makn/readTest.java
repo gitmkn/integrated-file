@@ -1,13 +1,16 @@
 package cn.makn;
 
 import cn.makn.api.IFileParse;
+import cn.makn.file.model.FileDate;
 import cn.makn.file.model.xml.FileConvert;
+import cn.makn.file.process.FileParse;
 import cn.makn.file.xml.XmlConvertUtils;
 import jdk.nashorn.internal.ir.annotations.Reference;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description:
@@ -41,8 +44,8 @@ public class readTest {
     @Test
     public void readTest3() throws IOException {
 //        long start = System.currentTimeMillis();
-//        List<String> date = FileUtils.getFileDate("E:/test1.txt", 0,1);
-//        System.out.println(date.toString().getBytes().length);
+//        List<String> date = FileUtils.getFileDate("E:/test2.txt", "UTF-8", 0,5000, -1);
+//        System.out.println(date.size());
 //        long end = System.currentTimeMillis();
 //        System.out.println((end - start)  / 1000 + "s");
     }
@@ -76,8 +79,8 @@ public class readTest {
     @Test
     public void readTest6() throws IOException {
 //        long start = System.currentTimeMillis();
-//        List<String> raf = FileUtils.getFileDate("E:/test1.txt", 1668281907, 5000, -1);
-//        System.out.println(raf);
+//        List<String> raf = FileUtils.getFileDate(new File("E:/test2.txt"), "UTF-8",0, -1, -1);
+//        System.out.println(raf.size());
 //        long end = System.currentTimeMillis();
 //        System.out.println((end - start)  / 1000 + "s");
     }
@@ -87,14 +90,15 @@ public class readTest {
     public void readTest7() throws IOException {
         // 143014562行 1.7G 48s
 //        long start = System.currentTimeMillis();
-//        Map<String, Object> raf = FileUtils.getRowCount("E:/test2.txt", 5000, -1);
+//        Map<String, Object> raf = FileUtils.getRowCount("E:/test1.txt", 1000000, -1);
 //        System.out.println(raf.get("fileParagraphs").toString());
 //        System.out.println(raf.get("count").toString());
+//        List<String> date = null;
 //        for(FileParagraph fileParagraph : (List<FileParagraph>)raf.get("fileParagraphs")){
-//            List<String> date = FileUtils.getFileDate("E:/test2.txt", fileParagraph.getPos(), fileParagraph.getNum(), -1);
-//            for(String str : date){
-////                System.out.println(str);
-//            }
+//            date = FileUtils.getFileDate("E:/test1.txt", "", fileParagraph.getPos(), fileParagraph.getNum(), -1);
+////            for(String str : date){
+//////                System.out.println(str);
+////            }
 //            System.out.println("长度：" + date.size());
 //        }
 //        long end = System.currentTimeMillis();
@@ -142,7 +146,8 @@ public class readTest {
     public void readTest11() throws Exception {
         long start = System.currentTimeMillis();
 
-
+//        IFileParse iFileParse = FileParse.getFileParse("txt");
+//        System.out.println("IFileParse:"+ iFileParse.getClass().getName());
         long end = System.currentTimeMillis();
         System.out.println((end - start) / 1000 + "s");
     }
@@ -150,7 +155,38 @@ public class readTest {
     @Test
     public void readTest12() throws Exception {
         long start = System.currentTimeMillis();
+        System.out.println(this.getClass().getPackage().getName());
+        Map map = new HashMap();
+        System.out.println(map instanceof HashMap);
+        long end = System.currentTimeMillis();
+        System.out.println((end - start) + "ms");
 
+    }
+
+    @Test
+    public void readTest13() throws Exception {
+        long start = System.currentTimeMillis();
+        FileDate fileDate = FileParse.getFileDate("E:/", "test2.txt", "txtUser", 0, 10000);
+//        Map map = (Map)fileDate.getHeadDate();
+//        System.out.println("文件头：" + map.get("testHead"));
+        System.out.println("文件体：" + fileDate.getBodyDate().toString());
+//        Map mapt = (Map)fileDate.getTailDate();
+//        System.out.println("文件尾：" + mapt.get("testTail"));
+        long end = System.currentTimeMillis();
+        System.out.println((end - start) + "ms");
+
+    }
+
+
+    @Test
+    public void readTest14() throws Exception {
+        long start = System.currentTimeMillis();
+        FileDate fileDate = FileParse.getFileDate("E:/", "test5.txt", "txtUser", 0, 10000);
+        Map map = (Map)fileDate.getHeadDate();
+        System.out.println("文件头：" + map.get("testHead"));
+        System.out.println("文件体：" + fileDate.getBodyDate().toString());
+        Map mapt = (Map)fileDate.getTailDate();
+        System.out.println("文件尾：" + mapt.get("testTail"));
         long end = System.currentTimeMillis();
         System.out.println((end - start) + "ms");
 

@@ -53,13 +53,13 @@ public class TxtFileParse implements IFileParse {
             try {
                 // 文件头数据处理
                 // 第一行、偏移量为0、模板文件头不为空、
-                if (i == 0 && pos == 0 && head != null && (head.getModule() == null || "H".equals(head.getModule()) || row.startsWith("H"))) {
+                if (i == 0 && pos == 0 && head != null && (head.getModule() == null || "H".equals(head.getModule()) || row.startsWith(head.getModule()))) {
                     Object obj = getRowDate(row, head);
                     fileDate.setHeadDate(obj);
-                } else if (i == rowCount - 1 && tail != null && (tail.getModule() == null || "T".equals(tail.getModule()) || row.startsWith("T"))) {
+                } else if (i == rowCount - 1 && tail != null && (tail.getModule() == null || "T".equals(tail.getModule()) || row.startsWith(tail.getModule()))) {
                     Object obj = getRowDate(row, tail);
                     fileDate.setTailDate(obj);
-                } else if (body.getModule() == null || "B".equals(body.getModule()) || row.startsWith("B")) {
+                } else if (body == null || body.getModule() == null || "B".equals(body.getModule()) || row.startsWith(body.getModule())) {
                     Object obj = getRowDate(row, body);
                     bodes.add(obj);
                 }

@@ -85,10 +85,10 @@ public class FileParse {
                 }
             } else {
                 try {
-                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), (Class<?>) obj);
+                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), obj.getClass());
                     Method wM = propertyDescriptor.getWriteMethod();
                     wM.invoke(obj, value);
-                } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

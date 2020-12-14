@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<file name = "txtUser" desc="测试文件" type="txt" encoding="UTF-8" br="\n">
-    <head sepType="B" separator="|" clazz="cn.makn.file.model.xml.FileRow" module="H">
+<file name = "txtUser" desc="测试文件" type="Txt" encoding="UTF-8" br="\n">
+    <head sepType="S" separator="|" clazz="java.util.Map" module="H">
         <field name="testHead" desc="测试头" toEmpty="Y"/>
     </head>
-    <body sepType="B" separator="|" clazz="cn.makn.file.model.xml.FileRow" module="B">
+    <body sepType="S" separator="|" clazz="cn.makn.User" module="B">
+        <field name="userName" desc="用户名称" toEmpty="Y"/>
         <field name="testBody" desc="测试体" toEmpty="Y"/>
     </body>
-    <tail sepType="B" separator="|" clazz="cn.makn.file.model.xml.FileRow" module="T">
+    <tail sepType="S" separator="|" clazz="java.util.Map" module="T">
         <field name="testTail" desc="测试尾部" toEmpty="Y"/>
     </tail>
 </file>
