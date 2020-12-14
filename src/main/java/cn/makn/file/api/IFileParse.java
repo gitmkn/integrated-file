@@ -14,7 +14,7 @@ import java.util.Map;
 public interface IFileParse {
 
     /**
-     * @param filePath
+     * @param filePath 文件路径
      * @return
      * @Description: 获取行数，返回整数
      * @author makn

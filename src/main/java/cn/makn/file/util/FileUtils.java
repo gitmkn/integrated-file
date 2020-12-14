@@ -14,7 +14,7 @@ public class FileUtils {
      * @Description: 创建路径
      * @author makn
      * @date 2020/12/14 17:46
-     * @param path
+     * @param path 文件路径
      * @return
      */
     public static boolean creatDir(String path) {

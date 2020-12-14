@@ -2,6 +2,7 @@ package cn.makn.file;
 
 import cn.makn.file.model.FileDate;
 import cn.makn.file.process.FileParse;
+import cn.makn.file.util.FileUtils;
 
 /**
  * @Description:
@@ -10,6 +11,17 @@ import cn.makn.file.process.FileParse;
  * @date: 2020/12/14 18:12
  */
 public class FileParseUtils {
+
+    /**
+     * @Description: 创建路径
+     * @author makn
+     * @date 2020/12/14 17:46
+     * @param path 文件路径
+     * @return
+     */
+    public static boolean creatDir(String path){
+        return FileUtils.creatDir(path);
+    }
 
     /**
      * @param path        文件路径
