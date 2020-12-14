@@ -49,7 +49,12 @@ public class FileParse {
             throw new FileParseExcept("文件解析时出现异常：[文件类型转换时，文件类型不能为空]");
         } else {
             try {
-                String className = FileParse.class.getPackage().getName() + "." + type + "FileParse";
+                // 适配xml模板中文件类型支持大小写
+                // 取字符串的首字母并大写
+                String CapitalLetter = type.substring(0,1).toUpperCase();
+                // 取字符串除首字母以外的字母
+                String typeFirst= type.substring(1);
+                String className = FileParse.class.getPackage().getName() + "." + CapitalLetter + typeFirst + "FileParse";
                 // 通过类名和类加载器获取Class,然后通过newInstance()获取对象实例
                 return (IFileParse) Class.forName(className).newInstance();
             } catch (Exception | NoClassDefFoundError e) {
