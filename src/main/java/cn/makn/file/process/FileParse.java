@@ -7,9 +7,7 @@ import cn.makn.file.model.xml.Field;
 import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.xml.XmlConvertUtils;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
