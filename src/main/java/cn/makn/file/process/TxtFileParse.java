@@ -1,6 +1,6 @@
 package cn.makn.file.process;
 
-import cn.makn.api.IFileParse;
+import cn.makn.file.api.IFileParse;
 import cn.makn.file.except.FileParseExcept;
 import cn.makn.file.model.FileDate;
 import cn.makn.file.model.FileParagraph;
