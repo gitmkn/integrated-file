@@ -1,10 +1,8 @@
-package cn.makn.api;
+package cn.makn.file.api;
 
 import cn.makn.file.model.FileDate;
-import cn.makn.file.model.FileParagraph;
 import cn.makn.file.model.xml.FileConvert;
 
-import java.io.File;
 import java.util.Map;
 
 /**
