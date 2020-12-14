@@ -3,6 +3,7 @@ package cn.makn.file.process;
 import cn.makn.api.IFileParse;
 import cn.makn.file.except.FileParseExcept;
 import cn.makn.file.model.FileDate;
+import cn.makn.file.model.FileParagraph;
 import cn.makn.file.model.xml.Field;
 import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.model.xml.FileRow;
@@ -43,6 +44,18 @@ public class TxtFileParse implements IFileParse {
         // body数据list
         List bodes = new ArrayList<>();
         fileDate.setBodyDate(bodes);
+        // 判断是否最后一行
+        boolean tailFlag = false;
+        if (num > rowCount) {
+            // 如果读取的行数小于分段的段数，说明是最后一行
+            tailFlag = true;
+        } else if (tail != null) {
+            // 如果模板定义文件尾部，则判断当前段后一行
+            FileParagraph fileParagraph = FileUtils.getRowCountAndPos(file, num + 1, pos, -1);
+            if(num == fileParagraph.getNum()){
+                tailFlag = true;
+            }
+        }
         for (int i = 0; i < rowCount; i++) {
             String row = rows.get(i);
             try {
@@ -51,7 +64,7 @@ public class TxtFileParse implements IFileParse {
                 if (i == 0 && pos == 0 && head != null && (head.getModule() == null || "H".equals(head.getModule()) || row.startsWith(head.getModule()))) {
                     Object obj = getRowDate(row, head);
                     fileDate.setHeadDate(obj);
-                } else if (i == rowCount - 1 && tail != null && (tail.getModule() == null || "T".equals(tail.getModule()) || row.startsWith(tail.getModule()))) {
+                } else if (i == rowCount - 1 && tail != null && (tail.getModule() == null || "T".equals(tail.getModule()) || row.startsWith(tail.getModule())) && (num > rowCount || tailFlag)) {
                     Object obj = getRowDate(row, tail);
                     fileDate.setTailDate(obj);
                 } else if (body == null || body.getModule() == null || "B".equals(body.getModule()) || row.startsWith(body.getModule())) {

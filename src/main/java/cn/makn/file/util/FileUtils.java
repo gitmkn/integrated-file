@@ -101,12 +101,12 @@ public class FileUtils {
     }
 
     /**
-     * @Description: 获取文件数据
      * @param file 文件路径 + 文件名称
-     * @param pos      偏移量
-     * @param num      读取条数 -1:读取所有(慎用，要防止内存溢出)
-     * @param size     缓冲 -1默认缓冲
+     * @param pos  偏移量
+     * @param num  读取条数 -1:读取所有(慎用，要防止内存溢出)
+     * @param size 缓冲 -1默认缓冲
      * @return List<String>
+     * @Description: 获取文件数据
      * @author makn
      * @date 2020/12/7 21:21
      */
@@ -134,9 +134,9 @@ public class FileUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
-                if(raf != null){
+                if (raf != null) {
                     // 关闭流
                     raf.close();
                 }
@@ -156,26 +156,42 @@ public class FileUtils {
      * @param pos  偏移量
      * @param size 缓冲
      * @return FileParagraph 当前段落行数及偏移量
-     * @Description: 根据偏移量读取下一段落（外部不可用）
+     * @Description: 根据偏移量读取下一段落
      * @author makn
      * @date 2020/12/8 15:41
      */
-    private static FileParagraph getRowCountAndPos(File file, int num, long pos, int size) throws IOException {
+    public static FileParagraph getRowCountAndPos(File file, int num, long pos, int size) {
         if (size < 0) {
             size = -1;
         }
-        // 读取R
-        BufferedFileUtils raf = BufferedFileUtils.getRAFWithModelR(file, size);
-        // 偏移段落
-        raf.seek(pos);
-        int count = 0;
-        while (raf.readLine() != null && (count < num || num == -1)) {
-            count++;
-        }
+
+        BufferedFileUtils raf = null;
         // 偏移量
-        long countPos = raf.getFilePointer();
-        // 关闭流
-        raf.close();
+        long countPos = 0L;
+        // 总行数
+        int count = 0;
+        try {
+            // 读取R
+            raf = BufferedFileUtils.getRAFWithModelR(file, size);
+            // 偏移段落
+            raf.seek(pos);
+            while (raf.readLine() != null && (count < num || num == -1)) {
+                count++;
+            }
+            // 偏移量
+            countPos = raf.getFilePointer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (raf != null) {
+                    // 关闭流
+                    raf.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         // 返回总行数和偏移量
         return new FileParagraph(count, countPos);
