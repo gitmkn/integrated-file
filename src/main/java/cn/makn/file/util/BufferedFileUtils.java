@@ -27,19 +27,19 @@ public class BufferedFileUtils extends BufferedRandomAccessFile {
         super(file, mode, size);
     }
 
-    protected static BufferedFileUtils getRAFWithModelR(File file, int size) throws IOException {
+    public static BufferedFileUtils getRAFWithModelR(File file, int size) throws IOException {
         return new BufferedFileUtils(file, model[0], size);
     }
 
-    protected static BufferedFileUtils getRAFWithModelRW(File file, int size) throws IOException {
+    public static BufferedFileUtils getRAFWithModelRW(File file, int size) throws IOException {
         return new BufferedFileUtils(file, model[2], size);
     }
 
-    protected static BufferedFileUtils getRAFWithModelRWS(File file, int size) throws IOException {
+    public static BufferedFileUtils getRAFWithModelRWS(File file, int size) throws IOException {
         return new BufferedFileUtils(file, model[3], size);
     }
 
-    protected static BufferedFileUtils getRAFWithModelRWD(File file, int size) throws IOException {
+    public static BufferedFileUtils getRAFWithModelRWD(File file, int size) throws IOException {
         return new BufferedFileUtils(file, model[4], size);
     }
 

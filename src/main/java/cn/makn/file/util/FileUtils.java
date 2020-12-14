@@ -1,9 +1,6 @@
 package cn.makn.file.util;
 
-import cn.makn.file.model.FileParagraph;
-
 import java.io.*;
-import java.util.*;
 
 /**
  * @Description:
@@ -14,186 +11,18 @@ import java.util.*;
 public class FileUtils {
 
     /**
-     * @param filePath 文件路径 +文件名称
+     * @Description: 创建路径
+     * @author makn
+     * @date 2020/12/14 17:46
+     * @param path
      * @return
-     * @Description: 获取文件总行数（只获取文件行数）
-     * @author makn
-     * @date 2020/12/7 19:52
      */
-    public static int getRowCount(String filePath) {
-        int count = 0;
-        InputStream inputStream = null;
-        BufferedReader bufferedReader = null;
-        try {
-            inputStream = new FileInputStream(new File(filePath));
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            while (bufferedReader.readLine() != null) {
-                count++;
-            }
-        } catch (IOException e) {
-            count = -1;
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    count = -1;
-                    e.printStackTrace();
-                }
-            }
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    count = -1;
-                    e.printStackTrace();
-                }
-            }
+    public static boolean creatDir(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            return true;
+        } else {
+            return file.mkdirs();
         }
-
-        return count;
-    }
-
-    /**
-     * @param filePath 文件路径 + 文件名称
-     * @param num      段行数
-     * @param size     缓冲
-     * @return
-     * @Description: 获取文件从条数，及段落偏移量
-     * @author makn
-     * @date 2020/12/8 15:39
-     */
-    public static Map<String, Object> getRowCount(String filePath, int num, int size) throws IOException {
-        // 单行偏移量
-        long pos = 0L;
-        // 总体偏移量
-        long count = 0L;
-        // 文件
-        File file = new File(filePath);
-        // 读取返回
-        List<FileParagraph> fileParagraphs = new LinkedList<FileParagraph>();
-        while (true) {
-            // 读取偏移量后的行数
-            FileParagraph fileParagraph = getRowCountAndPos(file, num, pos, size);
-
-            // 当前段落条数
-            int total = fileParagraph.getNum();
-            // 行数
-            count += total;
-
-            // 段落信息
-            fileParagraphs.add(new FileParagraph(total, pos));
-
-            // 读取无结果或不满足段数（最后一段），退出读取
-            if (total == 0 || total < num) {
-                break;
-            }
-            // 偏移量
-            pos = fileParagraph.getPos();
-        }
-
-        // 返回总行数和段落
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("count", count);
-        map1.put("fileParagraphs", fileParagraphs);
-        return map1;
-    }
-
-    /**
-     * @param file 文件路径 + 文件名称
-     * @param pos  偏移量
-     * @param num  读取条数 -1:读取所有(慎用，要防止内存溢出)
-     * @param size 缓冲 -1默认缓冲
-     * @return List<String>
-     * @Description: 获取文件数据
-     * @author makn
-     * @date 2020/12/7 21:21
-     */
-    public static List<String> getFileDate(File file, String encoding, long pos, int num, int size) {
-        List<String> date = new ArrayList<>();
-        if (size < 0) {
-            size = -1;
-        }
-        BufferedFileUtils raf = null;
-        try {
-            // 读取R
-            raf = BufferedFileUtils.getRAFWithModelR(file, size);
-            // 偏移段落
-            raf.seek(pos);
-            int count = 0;
-            String strLine;
-            while (count < num || num == -1) {
-                strLine = raf.readLine();
-                if (strLine != null) {
-                    date.add(new String(strLine.getBytes("8859_1"), encoding));
-                    count++;
-                } else {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (raf != null) {
-                    // 关闭流
-                    raf.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        // 返回总行数和偏移量
-        return date;
-    }
-
-    /**
-     * @param file 文件
-     * @param num  段行数
-     * @param pos  偏移量
-     * @param size 缓冲
-     * @return FileParagraph 当前段落行数及偏移量
-     * @Description: 根据偏移量读取下一段落
-     * @author makn
-     * @date 2020/12/8 15:41
-     */
-    public static FileParagraph getRowCountAndPos(File file, int num, long pos, int size) {
-        if (size < 0) {
-            size = -1;
-        }
-
-        BufferedFileUtils raf = null;
-        // 偏移量
-        long countPos = 0L;
-        // 总行数
-        int count = 0;
-        try {
-            // 读取R
-            raf = BufferedFileUtils.getRAFWithModelR(file, size);
-            // 偏移段落
-            raf.seek(pos);
-            while (raf.readLine() != null && (count < num || num == -1)) {
-                count++;
-            }
-            // 偏移量
-            countPos = raf.getFilePointer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (raf != null) {
-                    // 关闭流
-                    raf.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // 返回总行数和偏移量
-        return new FileParagraph(count, countPos);
     }
 }
