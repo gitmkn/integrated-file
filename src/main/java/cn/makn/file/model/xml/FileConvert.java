@@ -89,6 +89,15 @@ public class FileConvert {
      */
     private String sheetName;
 
+    /**
+     * @Description: EXCEL结束标志
+     * @author makn
+     * @date 2020/12/17 9:04
+     * @param null
+     * @return
+     */
+    private String endFlag;
+
     public String getName() {
         return name;
     }
@@ -161,6 +170,14 @@ public class FileConvert {
         this.sheetName = sheetName;
     }
 
+    public String getEndFlag() {
+        return endFlag;
+    }
+
+    public void setEndFlag(String endFlag) {
+        this.endFlag = endFlag;
+    }
+
     @Override
     public String toString() {
         return "FileConvert{" +
@@ -173,6 +190,7 @@ public class FileConvert {
                 ", body=" + body +
                 ", tail=" + tail +
                 ", sheetName='" + sheetName + '\'' +
+                ", endFlag='" + endFlag + '\'' +
                 '}';
     }
 }
