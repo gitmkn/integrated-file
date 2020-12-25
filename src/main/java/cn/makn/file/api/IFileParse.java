@@ -1,6 +1,7 @@
 package cn.makn.file.api;
 
 import cn.makn.file.model.FileDate;
+import cn.makn.file.model.FileSegment;
 import cn.makn.file.model.xml.FileConvert;
 
 import java.util.Map;
@@ -31,7 +32,7 @@ public interface IFileParse {
      * @author makn
      * @date 2020/12/8 15:39
      */
-    Map<String, Object> getRowCount(String filePath, int num, int size);
+    FileSegment getRowCount(String filePath, int num, int size);
 
     /**
      * @param filePath    文件路径

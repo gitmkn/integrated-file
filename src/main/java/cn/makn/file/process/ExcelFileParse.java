@@ -3,6 +3,7 @@ package cn.makn.file.process;
 import cn.makn.file.api.IFileParse;
 import cn.makn.file.except.FileParseExcept;
 import cn.makn.file.model.FileDate;
+import cn.makn.file.model.FileSegment;
 import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.model.xml.FileRow;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -12,6 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ExcelFileParse implements IFileParse {
@@ -20,7 +22,7 @@ public class ExcelFileParse implements IFileParse {
      * @Description: 获取EXCEL文件行数，默认sheet为0
      * @author makn
      * @date 2020/12/24 16:22
-     * @param filePath
+     * @param filePath 文件路径 + 文件名称
      * @return
      */
     @Override
@@ -78,9 +80,18 @@ public class ExcelFileParse implements IFileParse {
         return count;
     }
 
+    /**
+     * @Description:  获取EXCEL文件行数,返回结果分段
+     * @author makn
+     * @date 2020/12/25 11:24
+     * @param filePath 文件路径 + 文件名称
+     * @param num 读取条数 -1:读取所有(慎用，要防止内存溢出)
+     * @param size 缓冲 -1默认缓冲
+     * @return
+     */
     @Override
-    public Map<String, Object> getRowCount(String filePath, int num, int size) {
-        return null;
+    public FileSegment getRowCount(String filePath, int num, int size) {
+        return new FileSegment();
     }
 
     /**

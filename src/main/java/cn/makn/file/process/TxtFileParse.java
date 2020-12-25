@@ -4,6 +4,7 @@ import cn.makn.file.api.IFileParse;
 import cn.makn.file.except.FileParseExcept;
 import cn.makn.file.model.FileDate;
 import cn.makn.file.model.FileParagraph;
+import cn.makn.file.model.FileSegment;
 import cn.makn.file.model.xml.Field;
 import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.model.xml.FileRow;
@@ -67,7 +68,7 @@ public class TxtFileParse implements IFileParse {
      * @date 2020/12/8 15:39
      */
     @Override
-    public Map<String, Object> getRowCount(String filePath, int num, int size) {
+    public FileSegment getRowCount(String filePath, int num, int size) {
         // 单行偏移量
         long pos = 0L;
         // 总体偏移量
@@ -97,10 +98,10 @@ public class TxtFileParse implements IFileParse {
         }
 
         // 返回总行数和段落
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("count", count);
-        map1.put("fileParagraphs", fileParagraphs);
-        return map1;
+        FileSegment fileSegment = new FileSegment();
+        fileSegment.setCount(count);
+        fileSegment.setFileParagraphs(fileParagraphs);
+        return fileSegment;
     }
 
     /**

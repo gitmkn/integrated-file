@@ -3,6 +3,7 @@ package cn.makn.file.process;
 import cn.makn.file.api.IFileParse;
 import cn.makn.file.except.FileParseExcept;
 import cn.makn.file.model.FileDate;
+import cn.makn.file.model.FileSegment;
 import cn.makn.file.model.xml.Field;
 import cn.makn.file.model.xml.FileConvert;
 import cn.makn.file.xml.XmlConvertUtils;
@@ -32,16 +33,13 @@ public class FileParse {
      * @date 2020/12/24 15:01
      */
     public static int getRowCount(String path) {
-        String suffix;
-        if (path.endsWith(".txt")) {
-            suffix = "txt";
-        } else if (path.endsWith(".xlsx") || path.endsWith(".xls")) {
-            suffix = "excel";
-        } else {
-            suffix = "txt";
-        }
-        IFileParse iFileParse = getFileParse(suffix);
+        IFileParse iFileParse = getFileParse(getPathSuffix(path));
         return iFileParse.getRowCount(path);
+    }
+
+    public static FileSegment getRowCount(String filePath, int num, int size) {
+        IFileParse iFileParse = getFileParse(getPathSuffix(filePath));
+        return iFileParse.getRowCount(filePath, num, size);
     }
 
     /**
@@ -150,5 +148,23 @@ public class FileParse {
             }
 
         }
+    }
+
+    /**
+     * @Description: 根据文件路径,获取文件后缀,默认为txt
+     * @author makn
+     * @date 2020/12/25 10:19
+     * @param path 文件路径 + 文件名称
+     * @return
+     */
+    private static String getPathSuffix(String path) {
+        String suffix = "txt";
+        if (path != null) {
+            if (path.endsWith(".xlsx") || path.endsWith(".xls")) {
+                suffix = "excel";
+            }
+        }
+
+        return suffix;
     }
 }
