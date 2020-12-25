@@ -25,6 +25,26 @@ public class FileParse {
     private static final Map<String, Object> mapObject = new ConcurrentHashMap<>();
 
     /**
+     * @param path 文件路径 + 文件名称
+     * @return
+     * @Description: 获取文件行数，TXT和EXCEL获取路径后缀，如果为空则
+     * @author makn
+     * @date 2020/12/24 15:01
+     */
+    public static int getRowCount(String path) {
+        String suffix;
+        if (path.endsWith(".txt")) {
+            suffix = "txt";
+        } else if (path.endsWith(".xlsx") || path.endsWith(".xls")) {
+            suffix = "excel";
+        } else {
+            suffix = "txt";
+        }
+        IFileParse iFileParse = getFileParse(suffix);
+        return iFileParse.getRowCount(path);
+    }
+
+    /**
      * @param path        文件路径
      * @param fileName    文件名称
      * @param convertName 文件模板
@@ -56,9 +76,9 @@ public class FileParse {
             try {
                 // 适配xml模板中文件类型支持大小写
                 // 取字符串的首字母并大写
-                String CapitalLetter = type.substring(0,1).toUpperCase();
+                String CapitalLetter = type.substring(0, 1).toUpperCase();
                 // 取字符串除首字母以外的字母
-                String typeFirst= type.substring(1);
+                String typeFirst = type.substring(1);
                 String className = FileParse.class.getPackage().getName() + "." + CapitalLetter + typeFirst + "FileParse";
                 // 通过类名和类加载器获取Class,然后通过newInstance()获取对象实例
                 return (IFileParse) Class.forName(className).newInstance();
